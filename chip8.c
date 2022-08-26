@@ -131,7 +131,7 @@ void init_SDL(const uint32_t scale_factor) {
     want.freq = 44100;              // CD quality, 44100hz
     want.format = AUDIO_S16SYS;     // Signed 16 bit bytes
     want.channels = 1;              // Mono sound   
-    want.samples = want.freq / 20;  // Power of 2 size of audio buffer in samples // NEW: .05s worth of samples
+    want.samples = want.freq / 20;  // Power of 2 size of audio buffer in samples 
     want.callback = audio_callback; // Function to call to fill in audio buffer
 
     dev = SDL_OpenAudioDevice(NULL, 0, &want, &have, 0);
@@ -182,8 +182,8 @@ void draw_display(const chip8_t chip8, const config_t config) {
         if (chip8.display[i]) {
             // Pixel is on, Draw foreground color chip8 pixel
             uint8_t r = (config.foreground_color >> 24) & 0xFF;
-            uint8_t b = (config.foreground_color >> 16) & 0xFF;
-            uint8_t g = (config.foreground_color >> 8)  & 0xFF;
+            uint8_t g = (config.foreground_color >> 16) & 0xFF;
+            uint8_t b = (config.foreground_color >> 8)  & 0xFF;
             SDL_SetRenderDrawColor(renderer, r, g, b, SDL_ALPHA_OPAQUE);    
 
             SDL_RenderFillRect(renderer, &pixel);   // Draw filled rectangle with color
@@ -191,8 +191,8 @@ void draw_display(const chip8_t chip8, const config_t config) {
             if (config.draw_pixel_outlines) {
                 // Draw pixel "outline" over the filled rect
                 uint8_t r = (config.background_color >> 24) & 0xFF;
-                uint8_t b = (config.background_color >> 16) & 0xFF;
-                uint8_t g = (config.background_color >> 8)  & 0xFF;
+                uint8_t g = (config.background_color >> 16) & 0xFF;
+                uint8_t b = (config.background_color >> 8)  & 0xFF;
                 SDL_SetRenderDrawColor(renderer, r, g, b, SDL_ALPHA_OPAQUE);    
 
                 SDL_RenderDrawRect(renderer, &pixel);   // Draw rectangle outline with background color
@@ -201,8 +201,8 @@ void draw_display(const chip8_t chip8, const config_t config) {
         } else {  
             // Pixel is off, Draw background color chip8 pixel
             uint8_t r = (config.background_color >> 24) & 0xFF;
-            uint8_t b = (config.background_color >> 16) & 0xFF;
-            uint8_t g = (config.background_color >> 8)  & 0xFF;
+            uint8_t g = (config.background_color >> 16) & 0xFF;
+            uint8_t b = (config.background_color >> 8)  & 0xFF;
             SDL_SetRenderDrawColor(renderer, r, g, b, SDL_ALPHA_OPAQUE);    
 
             SDL_RenderFillRect(renderer, &pixel);   // Draw filled rectangle with color
@@ -370,7 +370,6 @@ chip8_t init_chip8(const char rom_name[]) {
     // Load initial rom file to chip8 memory
     FILE *rom = fopen(rom_name, "rb");
 
-    // NEW:
     if (!rom) {
         fprintf(stderr, "Rom file %s does not exist!\n", rom_name);
         exit(EXIT_FAILURE);
@@ -1031,12 +1030,12 @@ int main(int argc, char *argv[]) {
             emulate_instruction(&chip8);
 
         // Get current frame time elapsed
-        end_16ms_time = SDL_GetPerformanceCounter();    // NEW:
+        end_16ms_time = SDL_GetPerformanceCounter();    
 
         // Delay until full frame time
         diff_16ms = (double)((end_16ms_time - start_16ms_time) * 1000) / SDL_GetPerformanceFrequency();
 
-        if (diff_16ms < 16.67f) SDL_Delay(16.67f - diff_16ms);  // NEW:
+        if (diff_16ms < 16.67f) SDL_Delay(16.67f - diff_16ms);  
 
         // Update delay/sound timers and display every frame
         update_timers_display(&chip8, config); 
