@@ -8,6 +8,6 @@
 ## Building
 `make`
 
-## Running
-* `./chip8 <path/to/rom/file>` if on linux
-* `chip8 <path/to/rom/file>` if on windows
+## Usage
+* `./chip8 <path/to/rom/file> [options]` if on linux
+* `chip8 <path/to/rom/file> [options]` if on windows
