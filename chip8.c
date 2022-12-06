@@ -931,7 +931,7 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
             //   Screen pixels are XOR'd with sprite bits, 
             //   VF (Carry flag) is set if any screen pixels are set off; This is useful
             //   for collision detection or other reasons.
-						;
+            ;
             uint8_t X_coord = chip8->V[chip8->inst.X] % config.window_width;
             uint8_t Y_coord = chip8->V[chip8->inst.Y] % config.window_height;
             const uint8_t orig_X = X_coord; // Original X value
@@ -983,7 +983,7 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
             switch (chip8->inst.NN) {
                 case 0x0A:
                     // 0xFX0A: VX = get_key(); Await until a keypress, and store in VX
-										;
+                    ;
                     static bool any_key_pressed = false;
                     static uint8_t key = 0xFF;
 
@@ -1036,7 +1036,7 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
                 case 0x33:
                     // 0xFX33: Store BCD representation of VX at memory offset from I;
                     //   I = hundred's place, I+1 = ten's place, I+2 = one's place
-										;
+                    ;
                     uint8_t bcd = chip8->V[chip8->inst.X]; 
                     chip8->ram[chip8->I+2] = bcd % 10;
                     bcd /= 10;
