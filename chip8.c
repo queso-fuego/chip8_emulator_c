@@ -926,12 +926,11 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
             chip8->V[chip8->inst.X] = (rand() % 256) & chip8->inst.NN;
             break;
 
-        case 0x0D:
+        case 0x0D: {
             // 0xDXYN: Draw N-height sprite at coords X,Y; Read from memory location I;
             //   Screen pixels are XOR'd with sprite bits, 
             //   VF (Carry flag) is set if any screen pixels are set off; This is useful
             //   for collision detection or other reasons.
-            ;
             uint8_t X_coord = chip8->V[chip8->inst.X] % config.window_width;
             uint8_t Y_coord = chip8->V[chip8->inst.Y] % config.window_height;
             const uint8_t orig_X = X_coord; // Original X value
@@ -965,6 +964,7 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
             }
             chip8->draw = true; // Will update screen on next 60hz tick
             break;
+        }
 
         case 0x0E:
             if (chip8->inst.NN == 0x9E) {
@@ -981,9 +981,8 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
 
         case 0x0F:
             switch (chip8->inst.NN) {
-                case 0x0A:
+                case 0x0A: {
                     // 0xFX0A: VX = get_key(); Await until a keypress, and store in VX
-                    ;
                     static bool any_key_pressed = false;
                     static uint8_t key = 0xFF;
 
@@ -1007,6 +1006,7 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
                         }
                     }
                     break;
+                }
 
                 case 0x1E:
                     // 0xFX1E: I += VX; Add VX to register I. For non-Amiga CHIP8, does not affect VF
@@ -1033,10 +1033,9 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
                     chip8->I = chip8->V[chip8->inst.X] * 5;
                     break;
 
-                case 0x33:
+                case 0x33: {
                     // 0xFX33: Store BCD representation of VX at memory offset from I;
                     //   I = hundred's place, I+1 = ten's place, I+2 = one's place
-                    ;
                     uint8_t bcd = chip8->V[chip8->inst.X]; 
                     chip8->ram[chip8->I+2] = bcd % 10;
                     bcd /= 10;
@@ -1044,6 +1043,7 @@ void emulate_instruction(chip8_t *chip8, const config_t config) {
                     bcd /= 10;
                     chip8->ram[chip8->I] = bcd;
                     break;
+                }
 
                 case 0x55:
                     // 0xFX55: Register dump V0-VX inclusive to memory offset from I;
