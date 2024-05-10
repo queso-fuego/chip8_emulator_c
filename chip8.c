@@ -175,7 +175,7 @@ bool set_config_from_args(config_t *config, const int argc, char **argv) {
         .bg_color = 0x000000FF, // BLACK
         .scale_factor = 20,     // Default resolution will be 1280x640
         .pixel_outlines = true, // Draw pixel "outlines" by default
-        .insts_per_second = 700, // Number of instructions to emulate in 1 second (clock rate of CPU)
+        .insts_per_second = 600, // Number of instructions to emulate in 1 second (clock rate of CPU)
         .square_wave_freq = 440,    // 440hz for middle A
         .audio_sample_rate = 44100, // CD quality, 44100hz
         .volume = 3000,             // INT16_MAX would be max volume
@@ -1128,8 +1128,14 @@ int main(int argc, char **argv) {
         const uint64_t start_frame_time = SDL_GetPerformanceCounter();
         
         // Emulate CHIP8 Instructions for this emulator "frame" (60hz)
-        for (uint32_t i = 0; i < config.insts_per_second / 60; i++)
+        for (uint32_t i = 0; i < config.insts_per_second / 60; i++) {
             emulate_instruction(&chip8, config);
+
+            // If drawing on CHIP8, only draw 1 sprite this frame (display wait)
+            if ((config.current_extension == CHIP8) && 
+                (chip8.inst.opcode >> 12 == 0xD)) 
+                break;  
+        }
 
         // Get time elapsed after running instructions
         const uint64_t end_frame_time = SDL_GetPerformanceCounter();
