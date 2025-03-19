@@ -4,7 +4,7 @@
 #include <stdbool.h>
 #include <time.h>
 
-#include "SDL2/SDL.h"
+#include "SDL.h"
 
 // SDL Container object
 typedef struct {
@@ -346,8 +346,7 @@ void update_screen(const sdl_t sdl, const config_t config, chip8_t *chip8) {
 }
 
 
-// Save State function
-
+// Save Chip8 state to file
 bool save_state(const chip8_t *chip8, const char *filename) {
     FILE *file = fopen(filename, "wb");
     if (!file) {
@@ -366,11 +365,7 @@ bool save_state(const chip8_t *chip8, const char *filename) {
     return true;
 }
 
-//gets the state of the chip8 machine and saves it to a file
-
-
-// Load State function
-
+// Load Chip8 state from file
 bool load_state(chip8_t *chip8, const char *filename) {
     FILE *file = fopen(filename, "rb");
     if (!file) {
@@ -388,9 +383,6 @@ bool load_state(chip8_t *chip8, const char *filename) {
     fclose(file);
     return true;
 }
-
-//gets the state of the chip8 machine from a file and loads it into the current machine
-
 
 // Handle user input
 // CHIP8 Keypad  QWERTY 
